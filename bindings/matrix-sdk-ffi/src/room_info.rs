@@ -8,6 +8,8 @@ use crate::{
     room_member::RoomMember,
 };
 
+use tracing::info;
+
 #[derive(uniffi::Record)]
 pub struct RoomInfo {
     id: String,
@@ -68,6 +70,8 @@ impl RoomInfo {
             user_power_levels.insert(id.to_string(), *level);
         }
         let pinned_event_ids = room.pinned_event_ids().iter().map(|id| id.to_string()).collect();
+
+        info!("RoomInfo::new(id = {}, is_favorite = {})", room.room_id(), room.is_favourite());
 
         Ok(Self {
             id: room.room_id().to_string(),
